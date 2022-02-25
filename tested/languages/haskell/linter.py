@@ -68,10 +68,6 @@ def run_hlint(bundle: Bundle, submission: Path, remaining: float) \
         if not hint:
             continue
 
-        more_info = get_i18n_string("languages.linter.more-info")
-        hint = f'{hint} <a href="https://github.com/ndmitchell/hlint/blob/master/' \
-               f'hints.md" target="_blank">({more_info})</a>'
-
         hint_from = hlint_message.get('from', None)
         hint_to = hlint_message.get('to', None)
         if hint_from and hint_to:
@@ -85,6 +81,7 @@ def run_hlint(bundle: Bundle, submission: Path, remaining: float) \
             column=max(int(hlint_message.get('startColumn', "-1")) - 1, 0),
             type=message_categories.get(hlint_message.get('severity', "warning"),
                                         Severity.WARNING),
+            externalUrl=f"https://github.com/ndmitchell/hlint/blob/master/hints.md"
         ))
     # sort linting messages on line, column and code
     annotations.sort(key=lambda a: (a.row, a.column, a.text))
