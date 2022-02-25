@@ -63,14 +63,15 @@ def run_eslint(bundle: Bundle, submission: Path, remaining: float) \
             if not text:
                 continue
             rule_id = message.get('ruleId')
+            hint = None
             if rule_id:
-                text += f' (<a href="https://eslint.org/docs/rules/{rule_id}" ' \
-                        f'target="_blank">{rule_id}</a>)'
+                hint = f'https://eslint.org/docs/rules/{rule_id}'
             annotations.append(AnnotateCode(
                 row=max(int(message.get('line', "-1")) - 1, 0),
                 text=text,
                 column=max(int(message.get('column', "-1")) - 1, 0),
                 type=severity[int(message.get('severity', 1))],
+                externalUrl=hint
             ))
 
     # sort linting messages on line, column and code
